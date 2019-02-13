@@ -109,7 +109,7 @@ class $name
         $class .= '
     public function __construct(' . (!empty($node->uses) ? '' . $this->dispatcher->pCommaSeparated($node->uses) : '') . ')
     {
-        ';
+';
         foreach ($node->uses as $use) {
             $class .= '        let this->' . $use->var . ' = ' . $use->var . ";\n";
         }
@@ -117,7 +117,7 @@ class $name
     }
 
     public function __invoke(' . $this->dispatcher->pCommaSeparated($node->params) . ')
-    {' . $this->dispatcher->pStmts($this->convertUseToMemberAttribute($node->stmts, $node->uses)) . '
+    {   ' . $this->dispatcher->pStmts($this->convertUseToMemberAttribute($node->stmts, $node->uses)) . '
     }
 }
     ';
