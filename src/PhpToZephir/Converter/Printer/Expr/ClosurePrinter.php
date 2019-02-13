@@ -113,8 +113,7 @@ class $name
         foreach ($node->uses as $use) {
             $class .= '        let this->' . $use->var . ' = ' . $use->var . ";\n";
         }
-        $class .= '
-    }
+        $class .= '    }
 
     public function __invoke(' . $this->dispatcher->pCommaSeparated($node->params) . ')
     {'
