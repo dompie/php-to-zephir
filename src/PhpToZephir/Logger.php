@@ -28,30 +28,30 @@ class Logger
     /**
      * @var array
      */
-    private $incompatibility = array();
+    private $incompatibility = [];
     /**
      * @var array
      */
-    private $logs = array();
+    private $logs = [];
 
     /**
      * @param OutputInterface $output
-     * @param bool            $trace
-     * @param bool            $progresseBar
+     * @param bool $trace
+     * @param bool $progresseBar
      */
     public function __construct(OutputInterface $output, $trace = false, $progresseBar = true)
     {
-        $this->output       = $output;
-        $this->trace        = $trace;
+        $this->output = $output;
+        $this->trace = $trace;
         $this->progresseBar = $progresseBar;
     }
 
     private function cleanProgressbar()
     {
-        if ($this->progress !== null 
-         && $this->progress->getStartTime() !== null 
-         && $this->progress->getProgress() !== $this->progress->getMaxSteps()
-         && $this->progresseBar === true
+        if ($this->progress !== null
+            && $this->progress->getStartTime() !== null
+            && $this->progress->getProgress() !== $this->progress->getMaxSteps()
+            && $this->progresseBar === true
         ) {
             $this->progress->clear();
             $this->output->write("\r");
@@ -60,10 +60,10 @@ class Logger
 
     public function reDrawProgressBar()
     {
-        if ($this->progress !== null 
-         && $this->progress->getStartTime() !== null 
-         && $this->progress->getProgress() !== $this->progress->getMaxSteps()
-         && $this->progresseBar === true
+        if ($this->progress !== null
+            && $this->progress->getStartTime() !== null
+            && $this->progress->getProgress() !== $this->progress->getMaxSteps()
+            && $this->progresseBar === true
         ) {
             $this->progress->display();
         }
@@ -71,12 +71,12 @@ class Logger
 
     /**
      * @param string $message
-     * @param Node   $node
+     * @param Node $node
      * @param string $class
      */
     public function logNode($message, Node $node, $class = null)
     {
-        $this->logs[] = array('message' => $message, 'node' => $node->getLine(), 'class' => $class);
+        $this->logs[] = ['message' => $message, 'node' => $node->getLine(), 'class' => $class];
     }
 
     /**
@@ -87,14 +87,14 @@ class Logger
      */
     public function logIncompatibility($type, $message, Node $node, $class = null)
     {
-        $this->incompatibility[] = array('type' => $type, 'message' => $message, 'node' => $node->getLine(), 'class' => $class);
+        $this->incompatibility[] = ['type' => $type, 'message' => $message, 'node' => $node->getLine(), 'class' => $class];
     }
 
     public function getIncompatibility()
     {
         return $this->incompatibility;
     }
-    
+
     public function getLogs()
     {
         return $this->logs;
@@ -102,6 +102,8 @@ class Logger
 
     /**
      * @param string $message
+     * @param Node $node
+     * @param null $class
      */
     public function trace($message, Node $node, $class = null)
     {
@@ -138,6 +140,7 @@ class Logger
 
     /**
      * @param int $number
+     * @return ProgressBar
      */
     public function progress($number)
     {

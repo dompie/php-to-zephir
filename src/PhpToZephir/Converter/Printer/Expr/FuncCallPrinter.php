@@ -45,6 +45,7 @@ class FuncCallPrinter
      * @param Expr\FuncCall $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Expr\FuncCall $node)
     {

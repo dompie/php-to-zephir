@@ -19,6 +19,7 @@ class ParamPrinter extends SimplePrinter
      * @param Node\Param $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Node\Param $node)
     {
@@ -31,9 +32,9 @@ class ParamPrinter extends SimplePrinter
             );
         }
 
-        return ($node->type ? (is_string($node->type) ? $node->type : $this->dispatcher->p($node->type)).' ' : '')
-             .($node->variadic ? '... ' : '')
-             .''.$node->name
-             .($node->default ? ' = '.$this->dispatcher->p($node->default) : '').'';
+        return ($node->type ? (is_string($node->type) ? $node->type : $this->dispatcher->p($node->type)) . ' ' : '')
+            . ($node->variadic ? '... ' : '')
+            . '' . $node->name
+            . ($node->default ? ' = ' . $this->dispatcher->p($node->default) : '') . '';
     }
 }

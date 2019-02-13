@@ -19,6 +19,7 @@ class StaticCallPrinter extends SimplePrinter
      * @param Expr\StaticCall $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Expr\StaticCall $node)
     {

@@ -7,13 +7,13 @@ use PhpParser\NodeAbstract;
 class NodeFetcher
 {
     /**
-     * @param mixed  $nodesCollection
-     * @param array  $nodes
-     * @param string $parentClass
+     * @param mixed $nodesCollection
+     * @param array $nodes
+     * @param array $parentClass
      *
      * @return array
      */
-    public function foreachNodes($nodesCollection, array $nodes = array(), array $parentClass = array())
+    public function foreachNodes($nodesCollection, array $nodes = [], array $parentClass = [])
     {
         if (is_object($nodesCollection) === true && $nodesCollection instanceof NodeAbstract) {
             foreach ($nodesCollection->getSubNodeNames() as $subNodeName) {
@@ -30,11 +30,11 @@ class NodeFetcher
     private function fetch($nodeToFetch, $nodes, $parentClass, $addSelf = false)
     {
         if (is_array($nodeToFetch) === false) {
-            $nodeToFetch = array($nodeToFetch);
+            $nodeToFetch = [$nodeToFetch];
         }
-        
+
         foreach ($nodeToFetch as &$node) {
-            $nodes[] = array('node' => $node, 'parentClass' => $parentClass);
+            $nodes[] = ['node' => $node, 'parentClass' => $parentClass];
             if ($addSelf === true) {
                 $parentClass[] = $this->getParentClass($node);
             }

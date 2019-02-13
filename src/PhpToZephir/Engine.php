@@ -22,16 +22,16 @@ class Engine
     private $classCollector = null;
 
     /**
-     * @param Parser              $parser
-     * @param Converter\Converter $converter
-     * @param ClassCollector      $classCollector
-     * @param ConfigWriter        $configWriter
+     * @param Parser $parser
+     * @param Converter $converter
+     * @param ClassCollector $classCollector
      */
     public function __construct(
         Parser $parser,
         Converter $converter,
         ClassCollector $classCollector
-    ) {
+    )
+    {
         $this->parser = $parser;
         $this->converter = $converter;
         $this->classCollector = $classCollector;
@@ -39,19 +39,19 @@ class Engine
 
     /**
      * @param CodeCollectorInterface $codeCollector
-     * @param Logger                 $logger
-     * @param string                 $filterFileName
+     * @param Logger $logger
+     * @param string $filterFileName
      *
      * @return array
      */
     public function convert(CodeCollectorInterface $codeCollector, Logger $logger, $filterFileName = null)
     {
-        $zephirCode = array();
-        $classes = array();
+        $zephirCode = [];
+        $classes = [];
 
         $files = $codeCollector->getCode();
         $count = count($files);
-        $codes = array();
+        $codes = [];
 
         $logger->log('Collect class names');
         $progress = $logger->progress($count);
@@ -63,7 +63,7 @@ class Engine
             } catch (\Exception $e) {
                 $logger->log(
                     sprintf(
-                        '<error>Could not convert file'."\n".'"%s"'."\n".'cause : %s %s %s</error>'."\n",
+                        '<error>Could not convert file' . "\n" . '"%s"' . "\n" . 'cause : %s %s %s</error>' . "\n",
                         $fileName,
                         $e->getMessage(),
                         $e->getFile(),
@@ -94,7 +94,7 @@ class Engine
             } catch (\Exception $e) {
                 $logger->log(
                     sprintf(
-                        'Could not convert file "%s" cause : %s %s %s'."\n",
+                        'Could not convert file "%s" cause : %s %s %s' . "\n",
                         $phpFile,
                         $e->getMessage(),
                         $e->getFile(),
@@ -107,23 +107,23 @@ class Engine
 
             $zephirCode[$phpFile] = array_merge(
                 $converted,
-                array(
+                [
                     'phpPath' => substr($phpFile, 0, strrpos($phpFile, '/')),
                     'fileName' => $fileName,
-                    'fileDestination' => $converted['class'].'.zep',
-                )
-             );
+                    'fileDestination' => $converted['class'] . '.zep',
+                ]
+            );
 
             $zephirCode[$phpFile]['fileDestination'] = str_replace('\\', '/', $zephirCode[$phpFile]['fileDestination']);
 
             foreach ($converted['additionalClass'] as $aditionalClass) {
-                $zephirCode[$phpFile.$aditionalClass['name']] = array_merge(
-                    array(
+                $zephirCode[$phpFile . $aditionalClass['name']] = array_merge(
+                    [
                         'fileName' => $aditionalClass['name'],
                         'zephir' => $aditionalClass['code'],
-                        'fileDestination' => str_replace('\\', '/', $converted['namespace']).'/'.$aditionalClass['name'].'.zep',
-                        'destination' => str_replace('\\', '/', $converted['namespace']).'/',
-                    )
+                        'fileDestination' => str_replace('\\', '/', $converted['namespace']) . '/' . $aditionalClass['name'] . '.zep',
+                        'destination' => str_replace('\\', '/', $converted['namespace']) . '/',
+                    ]
                 );
             }
 
@@ -137,20 +137,24 @@ class Engine
     }
 
     /**
-     * @param string $phpCode
-     *
-     * @return string
+     * @param string|array $phpCode
+     * @param ClassCollector $classCollector
+     * @param Logger $logger
+     * @param string|null $fileName
+     * @param array $classes
+     * @return array
+     * @throws \Exception
      */
-    private function convertCode($phpCode, ClassCollector $classCollector, Logger $logger, $fileName = null, array $classes = array())
+    private function convertCode($phpCode, ClassCollector $classCollector, Logger $logger, $fileName = null, array $classes = [])
     {
         $converted = $this->converter->nodeToZephir($phpCode, $classCollector, $logger, $fileName, $classes);
 
-        return array(
+        return [
             'zephir' => $converted['code'],
             'php' => $phpCode,
             'namespace' => $converted['namespace'],
-            'destination' => str_replace('\\', '/', $converted['namespace']).'/',
+            'destination' => str_replace('\\', '/', $converted['namespace']) . '/',
             'additionalClass' => $converted['additionalClass'],
-        );
+        ];
     }
 }

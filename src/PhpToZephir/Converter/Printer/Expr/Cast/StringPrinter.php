@@ -2,9 +2,7 @@
 
 namespace PhpToZephir\Converter\Printer\Expr\Cast;
 
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Cast;
-use PhpParser\Node\Scalar\String_;
 use PhpToZephir\Converter\SimplePrinter;
 
 class StringPrinter extends SimplePrinter

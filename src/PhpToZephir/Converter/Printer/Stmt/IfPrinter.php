@@ -6,7 +6,6 @@ use PhpToZephir\Converter\Dispatcher;
 use PhpToZephir\Logger;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
-use PhpParser\Node\Scalar\String_;
 use PhpToZephir\Converter\Manipulator\AssignManipulator;
 
 class IfPrinter
@@ -48,6 +47,7 @@ class IfPrinter
      * @param Stmt\If_ $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Stmt\If_ $node)
     {
@@ -74,6 +74,7 @@ class IfPrinter
      * @param Stmt\If_ $node
      *
      * @return string
+     * @throws \Exception
      */
     private function implodeElseIfs(Stmt\If_ $node)
     {

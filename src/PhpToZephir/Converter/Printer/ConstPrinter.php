@@ -19,6 +19,7 @@ class ConstPrinter extends SimplePrinter
      * @param Node\Const_ $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Node\Const_ $node)
     {
@@ -31,6 +32,6 @@ class ConstPrinter extends SimplePrinter
             $node->value = new Node\Scalar\String_('');
         }
 
-        return $node->name.' = '.$this->dispatcher->p($node->value);
+        return $node->name . ' = ' . $this->dispatcher->p($node->value);
     }
 }

@@ -19,6 +19,7 @@ class ArrayItemPrinter extends SimplePrinter
      * @param Expr\ArrayItem $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Expr\ArrayItem $node)
     {

@@ -19,6 +19,7 @@ class ElseIfPrinter extends SimplePrinter
      * @param Stmt\ElseIf_ $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Stmt\ElseIf_ $node)
     {

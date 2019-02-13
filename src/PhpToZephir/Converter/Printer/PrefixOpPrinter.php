@@ -15,6 +15,8 @@ class PrefixOpPrinter extends SimplePrinter
     /**
      * Pretty prints an array of nodes (statements) and indents them optionally.
      *
+     * @param $type
+     * @param $operatorString
      * @param Node $node Array of nodes
      *
      * @return string Pretty printed statements
@@ -23,6 +25,6 @@ class PrefixOpPrinter extends SimplePrinter
     {
         list($precedence, $associativity) = $this->dispatcher->getPrecedenceMap($type);
 
-        return $operatorString.$this->dispatcher->pPrec($node, $precedence, $associativity, 1);
+        return $operatorString . $this->dispatcher->pPrec($node, $precedence, $associativity, 1);
     }
 }

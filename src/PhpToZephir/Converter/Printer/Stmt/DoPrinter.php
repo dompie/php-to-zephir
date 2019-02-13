@@ -24,7 +24,8 @@ class DoPrinter
 
     /**
      * @param Dispatcher $dispatcher
-     * @param Logger     $logger
+     * @param Logger $logger
+     * @param AssignManipulator $assignManipulator
      */
     public function __construct(Dispatcher $dispatcher, Logger $logger, AssignManipulator $assignManipulator)
     {

@@ -17,7 +17,7 @@ abstract class SimplePrinter
 
     /**
      * @param Dispatcher $dispatcher
-     * @param Logger     $logger
+     * @param Logger $logger
      */
     public function __construct(Dispatcher $dispatcher, Logger $logger)
     {

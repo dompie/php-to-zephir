@@ -17,23 +17,24 @@ class StmtsPrinter extends SimplePrinter
     /**
      * Pretty prints an array of nodes (statements) and indents them optionally.
      *
-     * @param Node[] $nodes  Array of nodes
-     * @param bool   $indent Whether to indent the printed nodes
+     * @param Node[] $nodes Array of nodes
+     * @param bool $indent Whether to indent the printed nodes
      *
      * @return string Pretty printed statements
+     * @throws \Exception
      */
     public function convert(array $nodes, $indent = true)
     {
         $result = '';
         foreach ($nodes as $node) {
             $result .= "\n"
-                    .$this->pComments($node->getAttribute('comments', array()))
-                    .$this->dispatcher->p($node)
-                    .($node instanceof Expr ? ';' : '');
+                . $this->pComments($node->getAttribute('comments', []))
+                . $this->dispatcher->p($node)
+                . ($node instanceof Expr ? ';' : '');
         }
 
         if ($indent) {
-            return preg_replace('~\n(?!$|'.Dispatcher::noIndentToken.')~', "\n    ", $result);
+            return preg_replace('~\n(?!$|' . Dispatcher::noIndentToken . ')~', "\n    ", $result);
         } else {
             return $result;
         }
@@ -49,7 +50,7 @@ class StmtsPrinter extends SimplePrinter
         $result = '';
 
         foreach ($comments as $comment) {
-            $result .= $comment->getReformattedText()."\n";
+            $result .= $comment->getReformattedText() . "\n";
         }
 
         return $result;

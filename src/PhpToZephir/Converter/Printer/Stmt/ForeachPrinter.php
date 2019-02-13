@@ -19,6 +19,7 @@ class ForeachPrinter extends SimplePrinter
      * @param Stmt\Foreach_ $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Stmt\Foreach_ $node)
     {

@@ -43,8 +43,9 @@ class ClassMetadata
     {
         $this->class = $value;
     }
+
     /**
-     * @param string $value
+     * @param array $value
      */
     public function setImplements(array $value)
     {
@@ -68,6 +69,7 @@ class ClassMetadata
 
     /**
      * @param string $key
+     * @param $value
      */
     public function addClassesAlias($key, $value)
     {
@@ -109,8 +111,9 @@ class ClassMetadata
     {
         return $this->use;
     }
+
     /**
-     * @return string
+     * @return array
      */
     public function getClassesAlias()
     {

@@ -51,7 +51,7 @@ class FileWriter
     "verbose": true
 }
 ';
-    
+
     /**
      * @param array $file
      */
@@ -70,7 +70,7 @@ class FileWriter
             $file['zephir']
         );
     }
-    
+
     /**
      * Create config file for zephir
      *

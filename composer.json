@@ -1,42 +1,45 @@
 {
-	"name" : "fezfez/php-to-zephir",
-	"description" : "Transform php code to zephir",
-	"type" : "library",
-	"authors" : [{
-			"name" : "Stéphane Demonchaux",
-			"email" : "demonchaux.stephane@gmail.com"
-		}
-	],
-	"keywords" : [
-		"convert php",
-		"zephir",
-		"php to zephir",
-		"code conversion"
-	],
-	"homepage" : "https://github.com/fezfez/php-to-zephir",
-	"require" : {
-		"nikic/PHP-Parser" : "1.4.*",
-		"phpdocumentor/reflection-docblock" : "2.0.*",
-		"phalcon/zephir" : "0.8.*",
-		"symfony/console" : "2.7.*"
-	},
-	"require-dev" : {
-		"phpunit/phpunit" : "4.8.*"
-	},
-	"autoload" : {
-		"psr-0" : {
-			"PhpToZephir" : "src/"
-		}
-	},
-	"support" : {
-		"source" : "https://github.com/fezfez/php-to-zephir",
-		"email" : "demonchaux.stephane@gmail.com",
-		"issues" : "https://github.com/fezfez/php-to-zephir/issues",
-		"wiki" : "https://github.com/fezfez/php-to-zephir/blob/master/README.md"
-	},
-	"minimum-stability" : "dev",
-	"prefer-stable" : true,
-	"bin" : [
-		"bin/php-to-zephir"
-	]
+  "name": "licxisky/php-to-zephir",
+  "description": "Transform php code to zephir",
+  "type": "library",
+  "authors": [
+    {
+      "name": "licxisky",
+      "email": "licxisky@gmail.com"
+    }
+  ],
+  "keywords": [
+    "convert php",
+    "zephir",
+    "php to zephir",
+    "code conversion"
+  ],
+  "homepage": "https://github.com/licxisky/php-to-zephir",
+  "require": {
+    "nikic/PHP-Parser": "1.4.*",
+    "phpdocumentor/reflection-docblock": "2.0.*",
+    "phalcon/zephir": "0.8.*",
+    "symfony/console": "2.7.*",
+    "ext-ctype": "*",
+    "php": ">=7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.8.*"
+  },
+  "autoload": {
+    "psr-0": {
+      "PhpToZephir": "src/"
+    }
+  },
+  "support": {
+    "source": "https://github.com/licxisky/php-to-zephir",
+    "email": "licxisky@gmail.com",
+    "issues": "https://github.com/licxisky/php-to-zephir/issues",
+    "wiki": "https://github.com/licxisky/php-to-zephir/blob/master/README.md"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "bin": [
+    "bin/php-to-zephir"
+  ]
 }

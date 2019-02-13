@@ -3,6 +3,7 @@
 namespace PhpToZephir\Converter\Printer\Expr;
 
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\Variable;
 use PhpToZephir\Converter\SimplePrinter;
 
 class NewPrinter extends SimplePrinter
@@ -14,7 +15,7 @@ class NewPrinter extends SimplePrinter
 
     public function convert(Expr\New_ $node)
     {
-        if ($node->class instanceof \PhpParser\Node\Expr\Variable) {
+        if ($node->class instanceof Variable) {
             return 'new {'.$this->dispatcher->p($node->class).'}('.$this->dispatcher->pCommaSeparated($node->args).')';
         }
 

@@ -3,7 +3,6 @@
 namespace PhpToZephir\Converter\Printer\Stmt;
 
 use PhpParser\Node\Stmt;
-use PhpParser\Node\Expr;
 use PhpToZephir\Converter\Dispatcher;
 use PhpToZephir\Logger;
 use PhpToZephir\ReservedWordReplacer;

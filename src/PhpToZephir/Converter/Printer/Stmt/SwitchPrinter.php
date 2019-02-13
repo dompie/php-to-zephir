@@ -22,6 +22,7 @@ class SwitchPrinter extends SimplePrinter
      * @param Stmt\Switch_ $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Stmt\Switch_ $node)
     {
@@ -41,6 +42,7 @@ class SwitchPrinter extends SimplePrinter
     }
 
     /**
+     * @param $case
      * @return Node\Expr
      */
     private function removeBreakStmt($case)

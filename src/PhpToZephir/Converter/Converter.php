@@ -31,13 +31,14 @@ class Converter
     }
 
     /**
-     * @param array          $stmts
+     * @param array $stmts
      * @param ClassCollector $classCollector
-     * @param Logger         $logger
-     * @param string         $fileName
-     * @param array          $classCollected
+     * @param Logger $logger
+     * @param string $fileName
+     * @param array $classCollected
      *
      * @return array
+     * @throws \Exception
      */
     public function nodeToZephir(array $stmts, ClassCollector $classCollector, Logger $logger, $fileName = null, array $classCollected = array())
     {
@@ -56,6 +57,7 @@ class Converter
     /**
      * @param ClassMetadata $metadata
      * @param ClassCollector $classCollector
+     * @throws \Exception
      */
     private function implementsExist(ClassMetadata $metadata, ClassCollector $classCollector)
     {
@@ -94,6 +96,7 @@ class Converter
     /**
      * @param array $stmts
      *
+     * @param Logger $logger
      * @return array
      */
     private function findAdditionalClasses(array $stmts, Logger $logger)

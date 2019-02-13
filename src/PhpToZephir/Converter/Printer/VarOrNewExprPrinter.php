@@ -20,11 +20,12 @@ class VarOrNewExprPrinter extends SimplePrinter
      * @param Node $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Node $node)
     {
         if ($node instanceof Expr\New_) {
-            return '('.$this->dispatcher->p($node).')';
+            return '(' . $this->dispatcher->p($node) . ')';
         } else {
             return $this->dispatcher->p($node);
         }

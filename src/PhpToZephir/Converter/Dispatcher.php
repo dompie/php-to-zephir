@@ -33,11 +33,11 @@ class Dispatcher
     /**
      * @var array
      */
-    private $precedenceMap = array();
+    private $precedenceMap = [];
     /**
      * @var array
      */
-    private $classes = array();
+    private $classes = [];
     /**
      * @var PrinterCollection
      */
@@ -61,7 +61,7 @@ class Dispatcher
 
     /**
      * @param PrinterCollection $printerCollection
-     * @param array             $precedenceMap
+     * @param array $precedenceMap
      */
     public function __construct(PrinterCollection $printerCollection, array $precedenceMap)
     {
@@ -72,9 +72,8 @@ class Dispatcher
     /**
      * Pretty prints a node.
      *
-     * @param \PhpParser\Node $node Node to be pretty printed
-     *
-     * @return string Pretty printed node
+     * @return null|string Pretty printed node
+     * @throws \Exception
      */
     public function p()
     {
@@ -82,25 +81,26 @@ class Dispatcher
         $node = $args[0];
 
         if (null === $node) {
-            return;
+            return null;
         }
 
-        $this->logger->trace('p'.$node->getType(), $node, $this->getMetadata()->getFullQualifiedNameClass());
+        $this->logger->trace('p' . $node->getType(), $node, $this->getMetadata()->getFullQualifiedNameClass());
 
-        $class = $this->getClass('p'.$node->getType());
+        $class = $this->getClass('p' . $node->getType());
 
-        return call_user_func_array(array($class, "convert"), $args);
+        return call_user_func_array([$class, "convert"], $args);
     }
 
     /**
      * @param string $method
-     * @param array  $arguments
+     * @param array $arguments
      *
      * @return string
+     * @throws \Exception
      */
     public function __call($method, $arguments)
     {
-        return call_user_func_array(array($this->getClass($method), 'convert'), $arguments);
+        return call_user_func_array([$this->getClass($method), 'convert'], $arguments);
     }
 
     /**
@@ -144,6 +144,7 @@ class Dispatcher
      * @param string $className
      *
      * @return object
+     * @throws \ReflectionException
      */
     private function dynamicConstruct($className)
     {
@@ -152,7 +153,7 @@ class Dispatcher
         if ($reflectionClass->getConstructor() === null) {
             return new $className();
         }
-        $dependencies = array();
+        $dependencies = [];
 
         foreach ($reflectionClass->getConstructor()->getParameters() as $nmb => $param) {
             $name = $param->getClass()->name;
@@ -196,6 +197,9 @@ class Dispatcher
      *
      * @param \PhpParser\Node[] $stmts Array of statements
      *
+     * @param ClassMetadata $metadata
+     * @param ClassCollector $classCollector
+     * @param Logger $logger
      * @return string Pretty printed statements
      */
     public function convert(array $stmts, ClassMetadata $metadata, ClassCollector $classCollector, Logger $logger)
@@ -204,7 +208,7 @@ class Dispatcher
         $this->classCollector = $classCollector;
         $this->logger = $logger;
 
-        return ltrim(str_replace("\n".self::noIndentToken, "\n", $this->pStmts($stmts, false)));
+        return ltrim(str_replace("\n" . self::noIndentToken, "\n", $this->pStmts($stmts, false)));
     }
 
     /**

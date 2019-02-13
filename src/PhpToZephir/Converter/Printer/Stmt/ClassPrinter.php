@@ -5,7 +5,6 @@ namespace PhpToZephir\Converter\Printer\Stmt;
 use PhpToZephir\Converter\Dispatcher;
 use PhpToZephir\Logger;
 use PhpParser\Node\Stmt;
-use PhpParser\Node\Name;
 use PhpToZephir\Converter\Manipulator\ClassManipulator;
 use PhpToZephir\ReservedWordReplacer;
 use PhpToZephir\NodeFetcher;

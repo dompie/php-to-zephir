@@ -15,10 +15,11 @@ class ImplodePrinter extends SimplePrinter
     }
 
     /**
-     * @param array  $nodes
+     * @param array $nodes
      * @param string $glue
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(array $nodes, $glue = '')
     {

@@ -12,8 +12,8 @@ class GetCodeTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array(
-                __DIR__.'/myDirTest/afile.php' => 'a file',
-                __DIR__.'/myDirTest/recursive/recursive.php' => 'recursive!',
+                __DIR__.'/myDirTest\afile.php' => 'a file',
+                __DIR__.'/myDirTest\recursive\recursive.php' => 'recursive!',
             ),
             $sUT->getCode()
         );

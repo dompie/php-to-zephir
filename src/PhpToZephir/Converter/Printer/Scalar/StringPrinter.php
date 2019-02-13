@@ -18,7 +18,7 @@ class StringPrinter extends SimplePrinter
     }
 
     /**
-     * @param Scalar\String $node
+     * @param String_ $node
      *
      * @return string
      */

@@ -46,6 +46,7 @@ class WhilePrinter
      * @param Stmt\While_ $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Stmt\While_ $node)
     {

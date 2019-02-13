@@ -44,9 +44,10 @@ class ArrayPrinter
 
     /**
      * @param Expr\Array_ $node
-     * @param bool        $returnAsArray
+     * @param bool $returnAsArray
      *
      * @return string|array
+     * @throws \Exception
      */
     public function convert(Expr\Array_ $node, $returnAsArray = false)
     {

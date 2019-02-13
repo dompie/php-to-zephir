@@ -2,15 +2,9 @@
 
 namespace PhpToZephir\Converter\Manipulator;
 
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\BinaryOp;
-use PhpToZephir\Converter\Dispatcher;
-use PhpParser\Node\Scalar;
-use PhpToZephir\Logger;
-
 class ArrayDto
 {
-    private $collected = array();
+    private $collected = [];
     private $expr;
 
     /**
@@ -20,7 +14,7 @@ class ArrayDto
     {
         $this->collected[] = $value;
     }
-    
+
     public function setExpr($value)
     {
         $this->expr = $value;
@@ -32,17 +26,17 @@ class ArrayDto
     public function getCollected()
     {
         if (!empty($this->collected)) {
-            return implode(";\n", $this->collected).";\n";
+            return implode(";\n", $this->collected) . ";\n";
         }
 
         return '';
     }
-    
+
     public function getExpr()
     {
         return $this->expr;
     }
-    
+
     public function hasCollected()
     {
         return !empty($this->collected);

@@ -2,6 +2,8 @@
 
 namespace PhpToZephir;
 
+use phpDocumentor\Reflection\DocBlock\Tag\ParamTag as PhpDocParamTag;
+use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use phpDocumentor\Reflection\DocBlock;
@@ -9,7 +11,6 @@ use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\Tag\ParamTag;
 use phpDocumentor\Reflection\DocBlock\Tag\ReturnTag;
 use phpDocumentor\Reflection\DocBlock\Tag\ThrowsTag;
-use phpDocumentor\Reflection\DocBlock\Tag\SeeTag;
 use PhpToZephir\Converter\ClassMetadata;
 use PhpParser\Node;
 
@@ -34,9 +35,9 @@ class TypeFinder
 
     /**
      * @param ReservedWordReplacer $reservedWordReplacer
-     * @param Logger               $logger
-     * @param ClassCollector       $classCollector
-     * @param NodeFetcher          $nodeFetcher
+     * @param Logger $logger
+     * @param ClassCollector $classCollector
+     * @param NodeFetcher $nodeFetcher
      */
     public function __construct(ReservedWordReplacer $reservedWordReplacer, Logger $logger, ClassCollector $classCollector, NodeFetcher $nodeFetcher)
     {
@@ -47,9 +48,10 @@ class TypeFinder
     }
 
     /**
-     * @param ClassMethod   $node
+     * @param ClassMethod $node
      * @param ClassMetadata $classMetadata
      * @retur narray
+     * @return array
      */
     public function getTypes(ClassMethod $node, ClassMetadata $classMetadata)
     {
@@ -64,10 +66,8 @@ class TypeFinder
 
     /**
      * @param ClassMethod $node
-     * @param string      $actualNamespace
-     * @param array       $use
-     * @param array       $classes
-     * @param array       $definition
+     * @param ClassMetadata $classMetadata
+     * @param array $definition
      *
      * @return array
      */
@@ -83,20 +83,20 @@ class TypeFinder
             $params['default'] = $param->default;
             $params['type'] = null;
 
-          /* @var $param \PhpParser\Node\Param */
-          if ($param->type === 'array') {
-              $params['type']['value'] = 'array';
-              $params['type']['isClass'] = false;
-          } elseif ($param->type === null) { // scalar or not strong typed in method
-             $docBlock = $this->nodeToDocBlock($node);
-              if ($docBlock !== null) {
-                  $params['type'] = $this->foundTypeInCommentForVar($docBlock, $param, $classMetadata);
-              }
-          } elseif ($param->type instanceof \PhpParser\Node\Name) {
-              $className = implode('\\', $param->type->parts);
-              $params['type']['value'] = $className;
-              $params['type']['isClass'] = true;
-          }
+            /* @var $param \PhpParser\Node\Param */
+            if ($param->type === 'array') {
+                $params['type']['value'] = 'array';
+                $params['type']['isClass'] = false;
+            } elseif ($param->type === null) { // scalar or not strong typed in method
+                $docBlock = $this->nodeToDocBlock($node);
+                if ($docBlock !== null) {
+                    $params['type'] = $this->foundTypeInCommentForVar($docBlock, $param, $classMetadata);
+                }
+            } elseif ($param->type instanceof Name) {
+                $className = implode('\\', $param->type->parts);
+                $params['type']['value'] = $className;
+                $params['type']['isClass'] = true;
+            }
 
             $definition['params'][] = $params;
         }
@@ -106,6 +106,7 @@ class TypeFinder
 
     /**
      * @param string $string
+     * @return mixed|string
      */
     private function replaceReservedWords($string)
     {
@@ -115,14 +116,14 @@ class TypeFinder
     /**
      * @param ClassMethod $node
      *
-     * @return NULL|\phpDocumentor\Reflection\DocBlock
+     * @return null|\phpDocumentor\Reflection\DocBlock
      */
     private function nodeToDocBlock(ClassMethod $node)
     {
         $attribute = $node->getAttributes();
 
-        if (isset($attribute['comments']) === false || isset($attribute['comments'][0]) === false) {
-            return;
+        if (isset($attribute['comments'][0]) === false) {
+            return null;
         }
 
         $docBlock = $attribute['comments'][0]->getText();
@@ -132,17 +133,14 @@ class TypeFinder
 
     /**
      * @param DocBlock $phpdoc
-     * @param Param    $param
-     * @param string   $actualNamespace
-     * @param array    $use
-     * @param array    $classes
-     *
+     * @param Param $param
+     * @param ClassMetadata $classMetadata
      * @return null|array
      */
     private function foundTypeInCommentForVar(DocBlock $phpdoc, Param $param, ClassMetadata $classMetadata)
     {
         foreach ($phpdoc->getTags() as $tag) {
-            if ($tag instanceof \phpDocumentor\Reflection\DocBlock\Tag\ParamTag) {
+            if ($tag instanceof PhpDocParamTag) {
                 if ($param->name === substr($tag->getVariableName(), 1)) {
                     if (!empty($tag->getType())) {
                         return $this->findType($tag, $param, $classMetadata);
@@ -151,16 +149,15 @@ class TypeFinder
             }
         }
 
-        return; 
+        return null;
     }
 
     /**
-     * @param string   $actualNamespace
-     * @param array    $definition
-     * @param array    $use
-     * @param array    $classes
      * @param DocBlock $phpdoc
      *
+     * @param array $definition
+     * @param ClassMetadata $classMetadata
+     * @param ClassMethod $node
      * @return array
      */
     private function findReturnTag($phpdoc = null, array $definition, ClassMetadata $classMetadata, ClassMethod $node)
@@ -169,14 +166,14 @@ class TypeFinder
         if (is_array($implements) === true) {
             foreach ($implements as $implement) {
                 foreach ($this->classCollector->getCollected() as $className => $classInfo) {
-                    if ($classMetadata->getNamespace().'\\'.$implement === $className) {
+                    if ($classMetadata->getNamespace() . '\\' . $implement === $className) {
                         try {
                             $phpdoc = $this->nodeToDocBlock($this->findMethod($classInfo, $node->name));
                         } catch (\InvalidArgumentException $e) {
                         }
                     }
                     foreach ($classMetadata->getClasses() as $use) {
-                        if ($use.'/'.$implement === $className) {
+                        if ($use . '/' . $implement === $className) {
                             try {
                                 $phpdoc = $this->nodeToDocBlock($this->findMethod($classInfo, $node->name));
                             } catch (\InvalidArgumentException $e) {
@@ -202,10 +199,8 @@ class TypeFinder
     }
 
     /**
-     * @param ClassMethod $classInfo
-     * @param string      $name
-     *
-     * @throws \InvalidArgumentException
+     * @param array $classInfo
+     * @param string $name
      *
      * @return \PhpParser\Node\Stmt\ClassMethod
      */
@@ -228,9 +223,9 @@ class TypeFinder
      */
     private function isReturnTag(Tag $tag)
     {
-        if ($tag instanceof ReturnTag 
-        && ($tag instanceof ThrowsTag) === false 
-        && ($tag instanceof ParamTag) === false
+        if ($tag instanceof ReturnTag
+            && ($tag instanceof ThrowsTag) === false
+            && ($tag instanceof ParamTag) === false
         ) {
             return true;
         } else {
@@ -239,10 +234,11 @@ class TypeFinder
     }
 
     /**
-     * @param string $actualNamespace
-     * @param Tag    $tag
+     * @param Tag $tag
      *
-     * @return string
+     * @param Node $node
+     * @param ClassMetadata $classMetadata
+     * @return array
      */
     private function findType(Tag $tag, Node $node, ClassMetadata $classMetadata)
     {
@@ -274,7 +270,9 @@ class TypeFinder
             return array('value' => '', 'isClass' => false);
         }
 
-        $arrayOfPrimitiveTypes = array_map(function ($val) { return $val.'[]'; }, $primitiveTypes);
+        $arrayOfPrimitiveTypes = array_map(function ($val) {
+            return $val . '[]';
+        }, $primitiveTypes);
 
         if (class_exists($rawType)) {
             $type = array('value' => $rawType, 'isClass' => true);
@@ -298,12 +296,11 @@ class TypeFinder
         } else { // considered as class
             $type = array('value' => $rawType, 'isClass' => true);
         }
-        
 
 
         return $type;
     }
-    
+
     /**
      * @param string $rawType
      * @param ClassMetadata $classMetadata

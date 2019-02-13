@@ -80,6 +80,7 @@ class ClassMethodPrinter
      * @param Stmt\ClassMethod $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Stmt\ClassMethod $node)
     {
@@ -134,9 +135,10 @@ class ClassMethodPrinter
 
     /**
      * @param Stmt\ClassMethod $node
-     * @param array            $varsInMethodSign
+     * @param array $varsInMethodSign
      *
      * @return string
+     * @throws \Exception
      */
     private function printVars(Stmt\ClassMethod $node, array $varsInMethodSign)
     {
@@ -154,9 +156,10 @@ class ClassMethodPrinter
 
     /**
      * @param Stmt\ClassMethod $node
-     * @param array            $types
+     * @param array $types
      *
      * @return string
+     * @throws \Exception
      */
     private function printReturn(Stmt\ClassMethod $node, array $types)
     {
@@ -189,9 +192,10 @@ class ClassMethodPrinter
 
     /**
      * @param \ArrayIterator|array $node
-     * @param array                $vars
+     * @param array $vars
      *
      * @return \ArrayIterator|array
+     * @throws \Exception
      */
     private function collectVars($node, array $vars = array())
     {

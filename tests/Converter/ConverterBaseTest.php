@@ -36,7 +36,7 @@ abstract class ConverterBaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return StringRender
+     * @return FileRender
      */
     private function getRender()
     {
@@ -89,13 +89,13 @@ abstract class ConverterBaseTest extends \PHPUnit_Framework_TestCase
         }
 
         if (count($zephir) !== 0) {
-        	$this->assertTrue($this->getCodeValidator()->isValid('Code'));
+            $this->assertTrue($this->getCodeValidator()->isValid('Code'));
         }
     }
-    
+
     private function showWiteSpace($string)
     {
-    	return str_replace(array("\n", "\t", "\r", " "), array('\n' . "\n", '\t', '\r', '.'), $string);
+        return str_replace(array("\n", "\t", "\r", " "), array('\n' . "\n", '\t', '\r', '.'), $string);
     }
 
     public static function delTree($dir)
@@ -103,7 +103,7 @@ abstract class ConverterBaseTest extends \PHPUnit_Framework_TestCase
         if (is_dir($dir) === false) {
             return;
         }
-        foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
+        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
             $path->isDir() && !$path->isLink() ? rmdir($path->getPathname()) : unlink($path->getPathname());
         }
     }

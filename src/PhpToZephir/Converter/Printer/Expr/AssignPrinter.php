@@ -6,8 +6,6 @@ use PhpToZephir\Converter\Dispatcher;
 use PhpToZephir\Logger;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\BinaryOp;
-use PhpParser\Node\Expr\Cast;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Expr\Array_;
@@ -62,7 +60,9 @@ class AssignPrinter
     /**
      * @param Expr\Assign $node
      *
+     * @param bool $extract
      * @return string
+     * @throws \Exception
      */
     public function convert(Expr\Assign $node, $extract = true)
     {
@@ -225,6 +225,7 @@ class AssignPrinter
 
     /**
      * @param Assign $rightNode
+     * @return Expr
      */
     private function findValueToAssign($rightNode)
     {
@@ -239,6 +240,7 @@ class AssignPrinter
      * @param Assign $node
      *
      * @return string
+     * @throws \Exception
      */
     private function convertListStmtToAssign($node)
     {
@@ -274,6 +276,9 @@ class AssignPrinter
 
     /**
      * @param Assign $rightNode
+     * @param array $toAssign
+     * @return array
+     * @throws \Exception
      */
     private function findVarToAssign($rightNode, array $toAssign = array())
     {
@@ -287,9 +292,14 @@ class AssignPrinter
 
     /**
      * @param Assign $node
-     * @param Expr   $leftNode
-     * @param Expr   $rightNode
+     * @param Expr $leftNode
+     * @param Expr $rightNode
      * @param string $operatorString
+     * @param $precedence
+     * @param $associativity
+     * @param bool $extract
+     * @return string
+     * @throws \Exception
      */
     private function arrayDimFetchCase($node, $leftNode, $rightNode, $operatorString, $precedence, $associativity, $extract = true)
     {

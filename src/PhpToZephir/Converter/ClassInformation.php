@@ -19,7 +19,7 @@ class ClassInformation
 
     /**
      * @param ReservedWordReplacer $reservedWordReplacer
-     * @param NodeFetcher          $nodeFetcher
+     * @param NodeFetcher $nodeFetcher
      */
     public function __construct(ReservedWordReplacer $reservedWordReplacer, NodeFetcher $nodeFetcher)
     {
@@ -31,6 +31,7 @@ class ClassInformation
      * @param array $nodes
      *
      * @return \PhpToZephir\Converter\ClassMetadata
+     * @throws \Exception
      */
     public function getClassesMetdata(array $nodes)
     {
@@ -48,10 +49,11 @@ class ClassInformation
     }
 
     /**
-     * @param array         $nodes
+     * @param array $nodes
      * @param ClassMetadata $classMetadata
      *
      * @return ClassMetadata
+     * @throws \Exception
      */
     public function build(array $nodes, ClassMetadata $classMetadata)
     {
@@ -71,15 +73,15 @@ class ClassInformation
                 $classMetadata->setNamespace(implode('\\', $node->name->parts));
             } elseif ($node instanceof Stmt\Interface_ || $node instanceof Stmt\Class_) {
                 if ($class !== null) {
-                    throw new \Exception('Multiple class find in '.$fileName);
+                    throw new \Exception('Multiple class find in ' . $fileName);
                 }
                 $class = $this->reservedWordReplacer->replace($node->name);
                 $classMetadata->setClass($class);
 
-                if ($node instanceof Stmt\Interface_ ) {
-                	
+                if ($node instanceof Stmt\Interface_) {
+
                 } elseif ($node instanceof Stmt\Class_ && $node->implements !== null) {
-                    $implementsClean = array();
+                    $implementsClean = [];
                     foreach ($node->implements as $implement) {
                         $implementsClean[] = $this->reservedWordReplacer->replace(implode('\\', $implement->parts));
                     }
@@ -87,7 +89,7 @@ class ClassInformation
                 }
             } elseif ($node instanceof Stmt\Interface_ || $node instanceof Stmt\Class_) {
                 if ($class !== null) {
-                    throw new \Exception('Multiple class find in '.$fileName);
+                    throw new \Exception('Multiple class find in ' . $fileName);
                 }
                 $class = $this->reservedWordReplacer->replace($node->name);
                 $classMetadata->setClass($class);

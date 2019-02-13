@@ -46,6 +46,7 @@ class VariablePrinter
      * @param Expr\Variable $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Expr\Variable $node)
     {

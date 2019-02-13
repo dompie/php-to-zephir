@@ -10,7 +10,7 @@ class FileCodeCollector implements CodeCollectorInterface
     private $files;
 
     /**
-     * @param array $code
+     * @param array $files
      */
     public function __construct(array $files)
     {

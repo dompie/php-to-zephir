@@ -23,8 +23,8 @@ class ObjectPropertyPrinter
     private $reservedWordReplacer = null;
 
     /**
-     * @param Dispatcher           $dispatcher
-     * @param Logger               $logger
+     * @param Dispatcher $dispatcher
+     * @param Logger $logger
      * @param ReservedWordReplacer $reservedWordReplacer
      */
     public function __construct(Dispatcher $dispatcher, Logger $logger, ReservedWordReplacer $reservedWordReplacer)
@@ -42,7 +42,7 @@ class ObjectPropertyPrinter
     public function convert($node)
     {
         if ($node instanceof Expr) {
-            return '{'.$this->dispatcher->p($node).'}';
+            return '{' . $this->dispatcher->p($node) . '}';
         } else {
             return $this->reservedWordReplacer->replace($node);
         }

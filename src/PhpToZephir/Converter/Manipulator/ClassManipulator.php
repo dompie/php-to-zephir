@@ -13,7 +13,7 @@ class ClassManipulator
      * @var ReservedWordReplacer
      */
     private $reservedWordReplacer = null;
-    private $classes = array();
+    private $classes = [];
 
     /**
      * @param ReservedWordReplacer $reservedWordReplacer
@@ -24,29 +24,31 @@ class ClassManipulator
     }
 
     /**
-     * @param Node\Name     $node
+     * @param Node\Name $node
      * @param ClassMetadata $metadata
-     * @param array         $classCollected
+     * @param array $classCollected
      *
      * @return string
      */
-    public function findRightClass(Node\Name $node, ClassMetadata $metadata, array $classCollected = array())
+    public function findRightClass(Node\Name $node, ClassMetadata $metadata, array $classCollected = [])
     {
         $class = implode('\\', $node->parts);
-        $lastPartsClass = array_map(function ($value) { return substr(strrchr($value, '\\'), 1); }, $classCollected);
+        $lastPartsClass = array_map(function ($value) {
+            return substr(strrchr($value, '\\'), 1);
+        }, $classCollected);
 
         $class = $this->reservedWordReplacer->replace($class);
 
         if (in_array($class, $classCollected)) {
-            return '\\'.$class;
+            return '\\' . $class;
         } elseif (array_key_exists($class, $metadata->getClassesAlias())) {
             $alias = $metadata->getClassesAlias();
 
-            return '\\'.$alias[$class];
+            return '\\' . $alias[$class];
         } elseif (false !== $key = array_search($class, $lastPartsClass)) {
-            return '\\'.$classCollected[$key];
-        } elseif (false !== $key = array_search($metadata->getNamespace().'\\'.$class, $classCollected)) {
-            return '\\'.$classCollected[$key];
+            return '\\' . $classCollected[$key];
+        } elseif (false !== $key = array_search($metadata->getNamespace() . '\\' . $class, $classCollected)) {
+            return '\\' . $classCollected[$key];
         } else {
             return $class;
         }

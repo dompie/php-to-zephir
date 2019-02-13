@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace PhpToZephir\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -43,8 +44,8 @@ class Convert extends Command
     private $output;
 
     /**
-     * @param Engine          $engine
-     * @param FileRender      $fileRender
+     * @param Engine $engine
+     * @param FileRender $fileRender
      * @param OutputInterface $output
      */
     public function __construct(Engine $engine, FileRender $fileRender, OutputInterface $output)
@@ -80,9 +81,9 @@ class Convert extends Command
         $logger = new Logger($this->output, $input->getOption('debug'));
 
         if (is_dir($source) === true) {
-            $collector = new DirectoryCodeCollector(array($source));
+            $collector = new DirectoryCodeCollector([$source]);
         } elseif (is_file($source) === true) {
-            $collector = new FileCodeCollector(array($source));
+            $collector = new FileCodeCollector([$source]);
         }
 
         foreach ($this->engine->convert($collector, $logger, $input->getArgument('file')) as $file) {
@@ -92,10 +93,10 @@ class Convert extends Command
         if (!empty($logger->getIncompatibility())) {
             $table = new Table($this->output);
 
-            $table->setHeaders(array(
-                array(new TableCell('Incompatibility', array('colspan' => 4))),
-                array('Type', 'Message', 'Line', 'Class')
-            ));
+            $table->setHeaders([
+                [new TableCell('Incompatibility', ['colspan' => 4])],
+                ['Type', 'Message', 'Line', 'Class']
+            ]);
             $table->setRows($logger->getIncompatibility());
             $table->render();
         } else {
@@ -105,10 +106,10 @@ class Convert extends Command
         if ($input->getOption('v') === true) {
             $table = new Table($this->output);
 
-            $table->setHeaders(array(
-                array(new TableCell('Log', array('colspan' => 3))),
-                array('Message', 'Line', 'Class')
-            ));
+            $table->setHeaders([
+                [new TableCell('Log', ['colspan' => 3])],
+                ['Message', 'Line', 'Class']
+            ]);
             $table->setRows($logger->getLogs());
             $table->render();
         }

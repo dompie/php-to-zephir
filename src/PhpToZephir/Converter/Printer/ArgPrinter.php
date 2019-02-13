@@ -19,6 +19,7 @@ class ArgPrinter extends SimplePrinter
      * @param Node\Arg $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Node\Arg $node)
     {
@@ -31,6 +32,6 @@ class ArgPrinter extends SimplePrinter
             );
         }
 
-        return ($node->unpack ? '...' : '').$this->dispatcher->p($node->value);
+        return ($node->unpack ? '...' : '') . $this->dispatcher->p($node->value);
     }
 }

@@ -19,6 +19,7 @@ class StaticPropertyFetchPrinter extends SimplePrinter
      * @param Expr\StaticPropertyFetch $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Expr\StaticPropertyFetch $node)
     {

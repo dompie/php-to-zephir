@@ -19,6 +19,7 @@ class BreakPrinter extends SimplePrinter
      * @param Stmt\Break_ $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Stmt\Break_ $node)
     {

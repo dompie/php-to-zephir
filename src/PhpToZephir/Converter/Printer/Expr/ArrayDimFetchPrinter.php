@@ -71,7 +71,10 @@ class ArrayDimFetchPrinter
     }
 
     /**
+     * @param array $collected
      * @param bool $returnAsArray
+     * @return array|string
+     * @throws \Exception
      */
     private function splitArray(array $collected, $returnAsArray)
     {

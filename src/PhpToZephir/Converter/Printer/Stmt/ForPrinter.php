@@ -23,6 +23,7 @@ class ForPrinter extends SimplePrinter
      * @param Stmt\For_ $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Stmt\For_ $node)
     {
@@ -64,7 +65,7 @@ class ForPrinter extends SimplePrinter
     /**
      * @param Stmt\For_ $node
      *
-     * @return \Stmt\For_
+     * @return Stmt\For_
      */
     private function findIteratorVar(Stmt\For_ $node)
     {

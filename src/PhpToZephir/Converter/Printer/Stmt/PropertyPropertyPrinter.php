@@ -19,6 +19,7 @@ class PropertyPropertyPrinter extends SimplePrinter
      * @param Stmt\PropertyProperty $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Stmt\PropertyProperty $node)
     {

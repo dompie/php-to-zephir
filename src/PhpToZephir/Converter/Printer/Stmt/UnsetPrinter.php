@@ -20,6 +20,7 @@ class UnsetPrinter extends SimplePrinter
      * @param Stmt\Unset_ $node
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Stmt\Unset_ $node)
     {

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace PhpToZephir\Service;
 
 use Symfony\Component\Console\Application;
@@ -26,6 +27,7 @@ class CliFactory
     /**
      * Create CLI instance.
      *
+     * @param OutputInterface $output
      * @return Application
      */
     public static function getInstance(OutputInterface $output)

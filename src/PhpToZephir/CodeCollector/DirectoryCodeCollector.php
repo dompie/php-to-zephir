@@ -10,7 +10,7 @@ class DirectoryCodeCollector implements CodeCollectorInterface
     private $directories;
 
     /**
-     * @param array $code
+     * @param array $directories
      */
     public function __construct(array $directories)
     {

@@ -10,7 +10,7 @@ class ReservedWordReplacer
             return $string;
         }
 
-        $reservedWord = array(
+        $reservedWord = [
             'inline' => 'inlinee',
             'Inline' => 'Inlinee',
             'array' => 'myArray',
@@ -41,7 +41,7 @@ class ReservedWordReplacer
             'int' => 'intt',
             'internal' => 'internall',
             'deprecated' => 'deprecatedd'
-        );
+        ];
 
         foreach ($reservedWord as $word => $replacement) {
             if ($string == $word) {

@@ -44,9 +44,10 @@ class TernaryPrinter
 
     /**
      * @param Expr\Ternary $node
-     * @param string       $returnAsArray
+     * @param bool $returnAsArray
      *
      * @return string
+     * @throws \Exception
      */
     public function convert(Expr\Ternary $node, $returnAsArray = false)
     {
