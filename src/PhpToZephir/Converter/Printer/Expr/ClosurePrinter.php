@@ -117,7 +117,8 @@ class $name
     }
 
     public function __invoke(' . $this->dispatcher->pCommaSeparated($node->params) . ')
-    {   ' . $this->dispatcher->pStmts($this->convertUseToMemberAttribute($node->stmts, $node->uses)) . '
+    {'
+            . $this->dispatcher->pStmts($this->convertUseToMemberAttribute($node->stmts, $node->uses)) . '
     }
 }
     ';

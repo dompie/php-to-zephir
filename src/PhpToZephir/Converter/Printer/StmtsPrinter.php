@@ -27,7 +27,7 @@ class StmtsPrinter extends SimplePrinter
     {
         $result = '';
         foreach ($nodes as $node) {
-            $result .= "\n"
+            $result .= "\n    "
                 . $this->pComments($node->getAttribute('comments', []))
                 . $this->dispatcher->p($node)
                 . ($node instanceof Expr ? ';' : '');
