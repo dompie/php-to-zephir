@@ -53,7 +53,7 @@ class ClosurePrinter
             self::$converted[$methodName] = 1;
         }
 
-        $name = $methodName . 'Closure' . $this->N2L(count(self::$converted[$methodName]));
+        $name = $methodName . 'Closure' . $this->N2L(self::$converted[$methodName]);
 
         $this->logger->logNode(
             sprintf('Closure does not exist in Zephir, class "%s" with __invoke is created', $name),
@@ -67,14 +67,14 @@ class ClosurePrinter
     /**
      * @param Expr\Closure $node
      * @param null|string $lastMethod
-     * @param int $number
      * @return array
      */
-    public function createClosureClass(Expr\Closure $node, $lastMethod, $number)
+    public function createClosureClass(Expr\Closure $node, $lastMethod)
     {
         $this->logger->trace(__METHOD__ . ' ' . __LINE__, $node, $this->dispatcher->getMetadata()->getFullQualifiedNameClass());
 
-        $name = $this->dispatcher->getMetadata()->getClass() . $lastMethod . 'Closure' . $this->N2L($number);
+        self::$converted[$lastMethod] = self::$converted[$lastMethod] ?? 0;
+        $name = $this->dispatcher->getMetadata()->getClass() . $lastMethod . 'Closure' . $this->N2L(++self::$converted[$lastMethod]);
 
         $this->logger->logNode(
             sprintf('Closure does not exist in Zephir, class "%s" with __invoke is created', $name),

@@ -21,7 +21,7 @@ class Converter
     private $nodeFetcher = null;
 
     /**
-     * @param Dispatcher  $dispatcher
+     * @param Dispatcher $dispatcher
      * @param NodeFetcher $nodeFetcher
      */
     public function __construct(Dispatcher $dispatcher, NodeFetcher $nodeFetcher)
@@ -40,18 +40,18 @@ class Converter
      * @return array
      * @throws \Exception
      */
-    public function nodeToZephir(array $stmts, ClassCollector $classCollector, Logger $logger, $fileName = null, array $classCollected = array())
+    public function nodeToZephir(array $stmts, ClassCollector $classCollector, Logger $logger, $fileName = null, array $classCollected = [])
     {
         $classInformation = ClassInformationFactory::getInstance();
         $metadata = $classInformation->getClassesMetdata($stmts);
 
         $this->implementsExist($metadata, $classCollector);
 
-        return array(
+        return [
             'code' => $this->dispatcher->convert($stmts, $metadata, $classCollector, $logger),
             'namespace' => $metadata->getNamespace(),
             'additionalClass' => $this->findAdditionalClasses($stmts, $logger),
-        );
+        ];
     }
 
     /**
@@ -103,16 +103,14 @@ class Converter
     {
         $closurePrinter = new ClosurePrinter($this->dispatcher, $logger);
         $lastMethod = null;
-        $aditionalClass = array();
-        $number = 0;
+        $aditionalClass = [];
 
         foreach ($this->nodeFetcher->foreachNodes($stmts) as $nodeData) {
             $node = $nodeData['node'];
             if ($node instanceof Stmt\ClassMethod) {
                 $lastMethod = $node->name;
             } elseif ($node instanceof Expr\Closure) {
-                $aditionalClass[] = $closurePrinter->createClosureClass($node, $lastMethod, $number);
-                ++$number;
+                $aditionalClass[] = $closurePrinter->createClosureClass($node, $lastMethod);
             }
         }
 
