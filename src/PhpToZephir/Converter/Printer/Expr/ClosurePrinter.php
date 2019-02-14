@@ -46,7 +46,7 @@ class ClosurePrinter
      */
     public function convert(Expr\Closure $node)
     {
-        $methodName = $this->dispatcher->getMetadata()->getClass() . $this->dispatcher->getLastMethod();
+        $methodName = $this->dispatcher->getMetadata()->getClass() . ucfirst($this->dispatcher->getLastMethod());
         if (isset(self::$converted[$methodName])) {
             ++self::$converted[$methodName];
         } else {
@@ -74,7 +74,7 @@ class ClosurePrinter
         $this->logger->trace(__METHOD__ . ' ' . __LINE__, $node, $this->dispatcher->getMetadata()->getFullQualifiedNameClass());
 
         self::$converted[$lastMethod] = self::$converted[$lastMethod] ?? 0;
-        $name = $this->dispatcher->getMetadata()->getClass() . $lastMethod . 'Closure' . $this->N2L(++self::$converted[$lastMethod]);
+        $name = $this->dispatcher->getMetadata()->getClass() . ucfirst($lastMethod) . 'Closure' . $this->N2L(++self::$converted[$lastMethod]);
 
         $this->logger->logNode(
             sprintf('Closure does not exist in Zephir, class "%s" with __invoke is created', $name),
